@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>معالج الإعداد | Installation Wizard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Tajawal', 'Arial', sans-serif; }
+        .main-blue { color: #2C3E50; }
+        .bg-main-blue { background-color: #2C3E50; }
+        .bg-light-blue { background-color: #3498DB; }
+        .bg-light-gray { background-color: #ECF0F1; }
+        .wizard-step { display: none; }
+        .wizard-step.active { display: block; }
+    </style>
+</head>
+<body class="bg-light-gray min-h-screen">
+    <div class="max-w-xl mx-auto mt-10 bg-white rounded-xl shadow p-6">
+        <div class="flex items-center gap-3 mb-6">
+            <img src="/static/logo.png" alt="App Logo" class="w-12 h-12 mr-2">
+            <span class="font-bold text-2xl main-blue">معالج الإعداد</span>
+        </div>
+        <div id="wizard-steps">
+            <!-- الخطوة 1: فحص البيئة -->
+            <div class="wizard-step active" id="step-1">
+                <h2 class="text-xl font-bold mb-4 main-blue">1. فحص البيئة</h2>
+                <p class="mb-4 text-gray-700">سيتم التحقق تلقائيًا من توفر Node.js و npm وقاعدة البيانات.</p>
+                <button id="checkEnvBtn" class="bg-light-blue text-white px-6 py-2 rounded font-bold hover:bg-blue-700">بدء الفحص</button>
+                <div id="envResult" class="mt-4"></div>
+            </div>
+            <!-- الخطوة 2: إعداد قاعدة البيانات -->
+            <div class="wizard-step" id="step-2">
+                <h2 class="text-xl font-bold mb-4 main-blue">2. إعداد قاعدة البيانات</h2>
+                <form id="dbForm" class="grid gap-4">
+                    <input type="text" id="dbHost" class="border rounded px-3 py-2" placeholder="عنوان السيرفر (localhost)">
+                    <input type="text" id="dbName" class="border rounded px-3 py-2" placeholder="اسم قاعدة البيانات (hospital)">
+                    <input type="text" id="dbUser" class="border rounded px-3 py-2" placeholder="اسم المستخدم (إن وجد)">
+                    <input type="password" id="dbPass" class="border rounded px-3 py-2" placeholder="كلمة المرور (إن وجدت)">
+                    <button type="submit" class="bg-light-blue text-white px-6 py-2 rounded font-bold hover:bg-blue-700">اختبار الاتصال</button>
+                </form>
+                <div id="dbResult" class="mt-4"></div>
+            </div>
+            <!-- الخطوة 3: حساب المسؤول -->
+            <div class="wizard-step" id="step-3">
+                <h2 class="text-xl font-bold mb-4 main-blue">3. إنشاء حساب المسؤول</h2>
+                <form id="adminForm" class="grid gap-4">
+                    <input type="text" id="adminUser" class="border rounded px-3 py-2" placeholder="اسم المستخدم">
+                    <input type="email" id="adminEmail" class="border rounded px-3 py-2" placeholder="البريد الإلكتروني">
+                    <input type="password" id="adminPass" class="border rounded px-3 py-2" placeholder="كلمة المرور">
+                    <button type="submit" class="bg-light-blue text-white px-6 py-2 rounded font-bold hover:bg-blue-700">إنشاء الحساب</button>
+                </form>
+                <div id="adminResult" class="mt-4"></div>
+            </div>
+            <!-- الخطوة 4: إعدادات الشعار واللغة -->
+            <div class="wizard-step" id="step-4">
+                <h2 class="text-xl font-bold mb-4 main-blue">4. إعداد الشعار واللغة</h2>
+                <form id="brandingForm" class="grid gap-4">
+                    <label>رفع شعار التطبيق:</label>
+                    <input type="file" id="logoInput" class="border rounded px-3 py-2">
+                    <label>اختيار اللغة الافتراضية:</label>
+                    <select id="langDefault" class="border rounded px-3 py-2">
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
+                    </select>
+                    <button type="submit" class="bg-light-blue text-white px-6 py-2 rounded font-bold hover:bg-blue-700">حفظ الإعدادات</button>
+                </form>
+                <div id="brandingResult" class="mt-4"></div>
+            </div>
+            <!-- الخطوة 5: مراجعة وتنفيذ الإعداد -->
+            <div class="wizard-step" id="step-5">
+                <h2 class="text-xl font-bold mb-4 main-blue">5. مراجعة وتنفيذ</h2>
+                <div id="reviewData" class="mb-4 text-gray-700"></div>
+                <button id="finalizeBtn" class="bg-green-600 text-white px-6 py-2 rounded font-bold hover:bg-green-800">تنفيذ الإعداد وتشغيل التطبيق</button>
+                <div id="finalResult" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+    // متغير لتتبع الخطوة الحالية
+    let step = 1;
+    function showStep(num) {
+        for (let i = 1; i <= 5; i++) {
+            document.getElementById('step-' + i).classList.remove('active');
+        }
+        document.getElementById('step-' + num).classList.add('active');
+        step = num;
+    }
+
+    // الخطوة 1: فحص البيئة (محاكاة)
+    document.getElementById('checkEnvBtn').onclick = function() {
+        document.getElementById('envResult').innerHTML = 'جارِ الفحص ...';
+        setTimeout(function(){
+            document.getElementById('envResult').innerHTML = '<span class="text-green-700 font-bold">✔️ تم التحقق من البيئة بنجاح!</span>';
+            setTimeout(function(){ showStep(2); }, 1000);
+        }, 1200);
+    };
+
+    // الخطوة 2: اختبار قاعدة البيانات (محاكاة)
+    document.getElementById('dbForm').onsubmit = function(e){
+        e.preventDefault();
+        document.getElementById('dbResult').innerHTML = 'جارِ اختبار الاتصال ...';
+        setTimeout(function(){
+            document.getElementById('dbResult').innerHTML = '<span class="text-green-700 font-bold">✔️ الاتصال بقاعدة البيانات ناجح!</span>';
+            setTimeout(function(){ showStep(3); }, 1000);
+        }, 1200);
+    };
+
+    // الخطوة 3: إنشاء حساب المسؤول (محاكاة)
+    document.getElementById('adminForm').onsubmit = function(e){
+        e.preventDefault();
+        document.getElementById('adminResult').innerHTML = 'جارِ إنشاء الحساب ...';
+        setTimeout(function(){
+            document.getElementById('adminResult').innerHTML = '<span class="text-green-700 font-bold">✔️ تم إنشاء الحساب بنجاح!</span>';
+            setTimeout(function(){ showStep(4); }, 1000);
+        }, 1200);
+    };
+
+    // الخطوة 4: إعدادات الشعار واللغة (محاكاة)
+    document.getElementById('brandingForm').onsubmit = function(e){
+        e.preventDefault();
+        document.getElementById('brandingResult').innerHTML = 'جارِ حفظ الإعدادات ...';
+        setTimeout(function(){
+            document.getElementById('brandingResult').innerHTML = '<span class="text-green-700 font-bold">✔️ تم حفظ الإعدادات!</span>';
+            setTimeout(function(){ 
+                // مراجعة البيانات (يمكنك جمعها من النماذج السابقة)
+                document.getElementById('reviewData').innerHTML =
+                  '✔️ البيئة جاهزة<br>✔️ قاعدة البيانات: ' + document.getElementById('dbName').value +
+                  '<br>✔️ المسؤول: ' + document.getElementById('adminUser').value +
+                  '<br>✔️ اللغة: ' + document.getElementById('langDefault').value +
+                  '<br>✔️ الشعار: ' + (document.getElementById('logoInput').files.length ? 'تم رفع شعار' : 'الشعار الافتراضي');
+                showStep(5);
+            }, 1000);
+        }, 1200);
+    };
+
+    // الخطوة 5: تنفيذ الإعداد (محاكاة)
+    document.getElementById('finalizeBtn').onclick = function() {
+        document.getElementById('finalResult').innerHTML = 'جارِ تنفيذ الإعداد ...';
+        setTimeout(function(){
+            document.getElementById('finalResult').innerHTML = '<span class="text-green-700 font-bold">🎉 تم إعداد التطبيق بنجاح! يمكنك البدء الآن.</span>';
+        }, 1500);
+    };
+    </script>
+</body>
+</html>

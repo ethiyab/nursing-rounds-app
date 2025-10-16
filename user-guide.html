@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>دليل المستخدم - متابعة المرضى</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+        body { font-family: 'Tajawal', sans-serif; }
+        .main-blue { color: #2C3E50; }
+        .bg-main-blue { background-color: #2C3E50; }
+        .bg-light-blue { background-color: #3498DB; }
+        .bg-light-gray { background-color: #ECF0F1; }
+        .guide-section { scroll-margin-top: 100px; }
+        a.guide-link { color: #3498DB; text-decoration: underline;}
+    </style>
+</head>
+<body class="bg-light-gray min-h-screen">
+    <header class="bg-main-blue text-white p-5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <img src="/static/logo.png" alt="شعار التطبيق" class="w-12 h-12 mr-2">
+            <span class="font-bold text-xl">دليل المستخدم</span>
+        </div>
+        <a href="index.html" class="bg-light-blue px-4 py-2 rounded text-white hover:bg-blue-600">لوحة التحكم</a>
+    </header>
+    <div class="max-w-3xl mx-auto mt-8 bg-white rounded-xl shadow p-6">
+        <h2 class="text-main-blue text-2xl font-bold mb-6 text-center">دليل المستخدم لتطبيق متابعة المرضى - Nursing Rounds</h2>
+        
+        <!-- فهرس المحتوى ... كما هو في النسخة السابقة ... -->
+
+        <!-- مثال لكل قسم مع صورة -->
+        <section id="login" class="guide-section mb-8">
+            <h3 class="font-bold text-main-blue text-xl mb-3">1. تسجيل الدخول والخروج</h3>
+            <ul class="list-decimal pr-4 space-y-2">
+                <li>ادخل اسم المستخدم وكلمة المرور في صفحة <strong>تسجيل الدخول</strong> واضغط "دخول".</li>
+                <li>إذا نسيت كلمة المرور، تواصل مع مسؤول النظام لإعادة تعيينها.</li>
+                <li>لتسجيل الخروج، اضغط زر "تسجيل الخروج" في أعلى أي صفحة.</li>
+            </ul>
+            <div class="mt-4 flex items-center justify-center">
+                <img src="/static/guide/login-example.png" alt="مثال شاشة تسجيل الدخول" class="rounded shadow w-full max-w-md">
+            </div>
+        </section>
+
+        <section id="dashboard" class="guide-section mb-8">
+            <h3 class="font-bold text-main-blue text-xl mb-3">2. تصفح لوحة التحكم والإحصائيات</h3>
+            <ul class="list-decimal pr-4 space-y-2">
+                <li>لوحة التحكم تعرض مؤشرات الأداء والجولات والمرضى والطلبات بشكل فوري.</li>
+                <li>يمكنك الانتقال لأي قسم عبر القائمة الجانبية بسهولة.</li>
+            </ul>
+            <div class="mt-4 flex items-center justify-center">
+                <img src="/static/guide/dashboard-example.png" alt="لوحة التحكم الرئيسية" class="rounded shadow w-full max-w-md">
+            </div>
+        </section>
+
+        <section id="rounds" class="guide-section mb-8">
+            <h3 class="font-bold text-main-blue text-xl mb-3">3. إجراء وتسجيل الجولات الذكية</h3>
+            <ul class="list-decimal pr-4 space-y-2">
+                <li>اختر "الجولات الذكية" من القائمة.</li>
+                <li>امسح رمز QR الخاص بالسرير أو أدخل بيانات السرير والغرفة يدويًا.</li>
+                <li>أدخل بيانات المريض ونموذج الـ 5P's، وطلبات إضافية.</li>
+                <li>تأكد من تعبئة كل الحقول المطلوبة ثم اضغط "حفظ الجولة".</li>
+                <li>في حالة فقد الاتصال، يتم حفظ البيانات محليًا وتتم مزامنتها لاحقًا عند توفر الإنترنت.</li>
+            </ul>
+            <div class="mt-4 flex items-center justify-center">
+                <img src="/static/guide/rounds-example.png" alt="نموذج تسجيل جولة ذكية" class="rounded shadow w-full max-w-md">
+            </div>
+        </section>
+
+        <!-- كرر نفس النموذج لباقي الأقسام مع صور لكل شاشة ... -->
+        <!-- ... patients, admin, reports, notifications, settings ... -->
+        
+        <section id="patients" class="guide-section mb-8">
+            <h3 class="font-bold text-main-blue text-xl mb-3">4. إدارة المرضى والبحث والتصدير</h3>
+            <ul class="list-decimal pr-4 space-y-2">
+                <li>انتقل إلى صفحة "المرضى".</li>
+                <li>ابحث عن المرضى بالاسم أو رقم الملف الطبي (MRN) أو القسم.</li>
+                <li>لإضافة مريض جديد، اضغط "إضافة مريض" واملأ البيانات المطلوبة.</li>
+                <li>للتعديل أو الحذف، استخدم أزرار "تعديل" و"حذف" بجوار كل مريض.</li>
+                <li>لتصدير جميع بيانات المرضى، اضغط زر "تصدير البيانات".</li>
+            </ul>
+            <div class="mt-4 flex items-center justify-center">
+                <img src="/static/guide/patients-example.png" alt="شاشة إدارة المرضى" class="rounded shadow w-full max-w-md">
+            </div>
+        </section>
+
+        <!-- ... وهكذا لباقي الأقسام: admin, reports, notifications, settings ... -->
+
+        <hr class="my-8">
+        <div class="text-center text-gray-600">هذا الدليل يخضع للتحديث المستمر. لملاحظاتكم واقتراحاتكم يرجى التواصل مع فريق الدعم.</div>
+    </div>
+</body>
+</html>
